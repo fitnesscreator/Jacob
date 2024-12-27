@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Focus Mode</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, #000000, #424242);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: background 0.5s ease;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, #d5ff5f, #424242);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientSlide 4s infinite;
+        }
+
+        @keyframes gradientSlide {
+            from {
+                background-position: 0%;
+            }
+            to {
+                background-position: 200%;
+            }
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+        }
+
+        .option {
+            background: #333;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            width: 330px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: flex-start;
+            position: relative;
+        }
+
+        .option img {
+            width: 25px;
+            height: 25px;
+            position: absolute;
+            left: 15px;
+        }
+
+        .option span {
+            margin: 0 auto;
+        }
+
+        .option:hover {
+            transform: scale(1.05);
+            background: #4e4e4e;
+        }
+
+        .option.highlighted {
+            background: #d5ff5f;
+            color: #000;
+        }
+
+        .answer {
+            display: none;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-align: center;
+            color: #d5ff5f;
+            white-space: pre-wrap;
+            margin-top: 30px;
+        }
+
+        .typing-dots {
+            display: none;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d5ff5f;
+            text-align: center;
+            animation: typingDots 1s steps(3) infinite;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .fade-out {
+            animation: fadeOut 1s ease-in forwards;
+        }
+
+        @keyframes typingDots {
+            0% {
+                content: '';
+            }
+            33% {
+                content: '.';
+            }
+            66% {
+                content: '..';
+            }
+            100% {
+                content: '...';
+            }
+        }
+
+        .fade-in {
+            animation: fadeInLetter 0.7s ease-in-out forwards;
+        }
+
+        @keyframes fadeInLetters {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Choose Your Focus</h1>
+    </div>
+
+    <div class="options-container">
+        <div class="option" onclick="showAnswer('Living the dream, huh?', 'Let’s sneak in a squat or two between naps!')">
+            <img src="https://i.ibb.co/41cyspK/Bella-11.png" alt="Eating and Sleeping Icon">
+            <span>Eating and Sleeping</span>
+        </div>
+        <div class="option highlighted" onclick="showAnswer('Great!', 'Let’s crush those goals together!')">
+            <img src="https://i.ibb.co/X8nwYRz/Bella-12.png" alt="Being Fit and Healthy Icon">
+            <span>Being Fit and Healthy</span>
+        </div>
+        <div class="option" onclick="showAnswer('No worries,', 'we’ll turn Fat into Fit!')">
+            <img src="https://i.ibb.co/Wx0zSQG/Bella-10.png" alt="Just Being Fatty Icon">
+            <span>I'm Fat Help Meh</span>
+        </div>
+    </div>
+
+    <div class="answer" id="answer"></div>
+
+    <script>
+    function typeWriterWithFade(text, element, callback) {
+        element.textContent = ''; // Clear any existing content
+        text.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.style.opacity = '0';
+            span.style.transition = `opacity 0.15s ease ${index * 0.05}s`; // Faster fade-in
+            element.appendChild(span);
+            setTimeout(() => {
+                span.style.opacity = '1';
+            }, index * 50); // Faster delay for fade-in effect
+        });
+
+        // Call the callback once all letters have appeared
+        setTimeout(() => {
+            if (callback) callback();
+        }, text.length * 50);
+    }
+
+    function showAnswer(firstPart, secondPart) {
+        const header = document.querySelector('.header');
+        const optionsContainer = document.querySelector('.options-container');
+        const answerDiv = document.getElementById('answer');
+
+        header.classList.add('fade-out');
+        optionsContainer.classList.add('fade-out');
+
+        setTimeout(() => {
+            header.style.display = 'none';
+            optionsContainer.style.display = 'none';
+
+            answerDiv.style.display = 'block';
+            answerDiv.textContent = '';
+
+            // First part animation
+            const firstPartElement = document.createElement('div');
+            firstPartElement.style.marginBottom = '20px';
+            answerDiv.appendChild(firstPartElement);
+
+            typeWriterWithFade(firstPart, firstPartElement, () => {
+                // Add 2-second delay for the second part
+                setTimeout(() => {
+                    const secondPartElement = document.createElement('div');
+                    secondPartElement.style.fontSize = '2.2rem';
+                    secondPartElement.style.color = '#d5ff5f';
+                    answerDiv.appendChild(secondPartElement);
+
+                    typeWriterWithFade(secondPart, secondPartElement, () => {
+                        // Redirect after 2 seconds once the second part is fully shown
+                        setTimeout(() => {
+                            window.location.href = 'main.html'; // Redirect to main.html
+                        }, 3000);
+                    });
+                }, 2000); // Delay for second part
+            });
+        }, 800); // Reduced delay for fade-out of header and options
+    }
+</script>
+
+
+</body>
+</html>
