@@ -224,12 +224,19 @@
                         // Redirect after 2 seconds once the second part is fully shown
                         setTimeout(() => {
                             window.location.href = 'main.html'; // Redirect to main.html
-                        }, 3000);
+                        }, 2000);
                     });
                 }, 2000); // Delay for second part
             });
         }, 800); // Reduced delay for fade-out of header and options
     }
+
+    // Refresh the page if the user navigates back
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
 </script>
 
 
