@@ -146,6 +146,38 @@
         opacity: 1;
     }
 }
+      
+      @media only screen and (max-width: 600px) {
+    /* Add a tiny horizontal padding to avoid edge collisions */
+    body {
+        padding: 0 10px;
+    }
+
+    /* Keep the container widths responsive without changing sizes */
+    .options-container {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Make sure the option buttons scale down gracefully */
+    .option {
+        width: 90%;
+        height: 70px;
+        box-sizing: border-box;
+    }
+    
+    /* Adjust font sizes for the two animated text lines */
+    .answer div:first-child {
+        font-size: 1.5rem;
+    }
+    
+    .answer div:nth-child(2) {
+        font-size: 1.5rem !important;
+    }
+}
+
+
+
 
     </style>
 </head>
